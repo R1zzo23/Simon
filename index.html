@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Simon</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!-- Font Awesome CDN -->
+    <link rel=StyleSheet href="custom.css" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
+    <script>
+
+    var correctPattern = [];
+    var playerInput = [];
+    var count = 0;
+    var turn = 0;
+    var strictMode = false;
+
+    $(document).ready(function() {
+
+    });
+
+    //starts the game
+    function startGame() {
+      nextButton();
+    }
+
+    //randomly assign the next button to the pattern
+    function nextButton() {
+      var nextButton = Math.floor(Math.random() * 4) + 1;
+      correctPattern.push(nextButton);
+      document.getElementById('correctPattern').innerHTML = correctPattern;
+
+    }
+
+    //plays the pattern to the player with sound and light
+    function playPattern() {
+
+    }
+
+    //plays sound, lights up piece and pushes that value to playerInput[]
+    function playerPress(num) {
+      //code to light up piece that was pressed
+      //code to play sound for piece that was pressed
+      playerInput.push(num);
+      document.getElementById('playerInput').innerHTML = playerInput;
+      checkInput(playerInput, correctPattern);
+    }
+
+    //comparison between playerInput[] and correctPattern[] to see if right or wrong
+    function checkInput(playerInput, correctPattern) {
+      var patternIsCorrect = true;
+
+      for (var i = 0; i < playerInput.length; i++) {
+        if (playerInput[i] !== correctPattern[i]) {
+          patternIsCorrect = false;
+          break;
+        }
+        if (patternIsCorrect == true) {
+          nextButton();
+        }
+        else if (patternIsCorrect == false) {
+          if (strictMode == true) {
+            //game ends
+            alert("Game Over!");
+          }
+          else {
+            //take off last object in playerInput[] and replay correctPattern[]
+            playerInput.splice(-1,1);
+            //playPattern();
+          }
+        }
+      }
+    }
+
+    </script>
+  </head>
+
+  <body ontouchstart="">
+    <div class="container-fluid text-center"> <!-- Beginning of Container -->
+      <div class="row">
+        <div class="col-cs-12">
+          <button onclick="startGame()">Start</button>
+          <button onclick="playerPress(1)">1 - Blue</button>
+          <button onclick="playerPress(2)">2 - Red</button>
+          <button onclick="playerPress(3)">3 - Green</button>
+          <button onclick="playerPress(4)">4 - Yellow</button>
+          <p id="correctPattern"></p>
+          <p id="playerInput"></p>
+        </div>
+      </div>
+    </div> <!-- End of Container -->
+  </body>
+</html>
