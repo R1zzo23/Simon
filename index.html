@@ -28,6 +28,17 @@
 
     });
 
+    function toggleStrictMode() {
+      if (strictMode) {
+        strictMode = false;
+        document.getElementById('btnStrictMode').innerHTML = "Strict Mode: OFF";
+      }
+      else if (!strictMode) {
+        strictMode = true;
+        document.getElementById('btnStrictMode').innerHTML = "Strict Mode: ON";
+      }
+    }
+
     //starts the game
     function startGame() {
       nextButton();
@@ -35,6 +46,8 @@
 
     //randomly assign the next button to the pattern
     function nextButton() {
+      turn++;
+      document.getElementById('turn').innerHTML = "Turn #" + turn;
       var nextButton = Math.floor(Math.random() * 4) + 1;
       correctPattern.push(nextButton);
       document.getElementById('correctPattern').innerHTML = correctPattern;
@@ -51,8 +64,12 @@
       //code to light up piece that was pressed
       //code to play sound for piece that was pressed
       playerInput.push(num);
+      console.log("playerInput = " + playerInput);
       document.getElementById('playerInput').innerHTML = playerInput;
-      checkInput(playerInput, correctPattern);
+      if (playerInput.length == correctPattern.length){
+        console.log("Checking input for correct pattern!");
+        checkInput(playerInput, correctPattern);
+      }
     }
 
     //comparison between playerInput[] and correctPattern[] to see if right or wrong
@@ -62,21 +79,30 @@
       for (var i = 0; i < playerInput.length; i++) {
         if (playerInput[i] !== correctPattern[i]) {
           patternIsCorrect = false;
+          console.log("patternIsCorrect = " + patternIsCorrect);
           break;
         }
-        if (patternIsCorrect == true) {
-          nextButton();
+      }
+      if (patternIsCorrect == true) {
+        count++;
+        document.getElementById('count').innerHTML = "Count: " + count;
+        playerInput.length = 0;
+        document.getElementById('playerInput').innerHTML = playerInput;
+        nextButton();
+      }
+      else if (patternIsCorrect == false) {
+        console.log("patternIsCorrect = " + patternIsCorrect);
+        if (strictMode == true) {
+          //game ends
+          alert("Game over! Would you like to play again?");
         }
-        else if (patternIsCorrect == false) {
-          if (strictMode == true) {
-            //game ends
-            alert("Game Over!");
-          }
-          else {
-            //take off last object in playerInput[] and replay correctPattern[]
-            playerInput.splice(-1,1);
-            //playPattern();
-          }
+        else {
+          //empty playerInput so they can try again
+          console.log("Incorrect!!!");
+          alert("Incorrect! Try again!");
+          playerInput.length = 0;
+          document.getElementById('playerInput').innerHTML = playerInput;
+          //playPattern();
         }
       }
     }
@@ -89,12 +115,15 @@
       <div class="row">
         <div class="col-cs-12">
           <button onclick="startGame()">Start</button>
+          <button id="btnStrictMode" onclick="toggleStrictMode()">Strict Mode: OFF</button>
           <button onclick="playerPress(1)">1 - Blue</button>
           <button onclick="playerPress(2)">2 - Red</button>
           <button onclick="playerPress(3)">3 - Green</button>
           <button onclick="playerPress(4)">4 - Yellow</button>
           <p id="correctPattern"></p>
           <p id="playerInput"></p>
+          <p id="turn">Turn #0</p>
+          <p id="count">Count: 0</p>
         </div>
       </div>
     </div> <!-- End of Container -->
