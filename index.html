@@ -24,8 +24,12 @@
     var turn = 0;
     var strictMode = false;
 
-    $(document).ready(function() {
 
+    $(document).ready(function() {
+      var audio1 = document.getElementById('audio1');
+      var audio2 = document.getElementById('audio2');
+      var audio3 = document.getElementById('audio3');
+      var audio4 = document.getElementById('audio4');
     });
 
     function toggleStrictMode() {
@@ -51,12 +55,30 @@
       var nextButton = Math.floor(Math.random() * 4) + 1;
       correctPattern.push(nextButton);
       document.getElementById('correctPattern').innerHTML = correctPattern;
-
+      playPattern();
     }
 
     //plays the pattern to the player with sound and light
     function playPattern() {
-
+      for (var i = 0; i < correctPattern.length; i++) {
+        if (correctPattern[i] == 1) {
+          //audio1.play();
+          setTimeout(function(){ audio1.play(); }, 1000);
+        }
+        else if (correctPattern[i] == 2) {
+          //audio2.play();
+          setTimeout(function(){ audio2.play(); }, 1000);
+        }
+        else if (correctPattern[i] == 3) {
+          //audio3.play();
+          setTimeout(function(){ audio3.play(); }, 1000);
+        }
+        else if (correctPattern[i] == 4) {
+          //audio4.play();
+          setTimeout(function(){ audio4.play(); }, 1000);
+        }
+        //setTimeout(function(){ alert("Hello"); }, 1000);
+      }
     }
 
     //plays sound, lights up piece and pushes that value to playerInput[]
@@ -64,10 +86,8 @@
       //code to light up piece that was pressed
       //code to play sound for piece that was pressed
       playerInput.push(num);
-      console.log("playerInput = " + playerInput);
       document.getElementById('playerInput').innerHTML = playerInput;
       if (playerInput.length == correctPattern.length){
-        console.log("Checking input for correct pattern!");
         checkInput(playerInput, correctPattern);
       }
     }
@@ -79,7 +99,6 @@
       for (var i = 0; i < playerInput.length; i++) {
         if (playerInput[i] !== correctPattern[i]) {
           patternIsCorrect = false;
-          console.log("patternIsCorrect = " + patternIsCorrect);
           break;
         }
       }
@@ -91,14 +110,12 @@
         nextButton();
       }
       else if (patternIsCorrect == false) {
-        console.log("patternIsCorrect = " + patternIsCorrect);
         if (strictMode == true) {
           //game ends
           alert("Game over! Would you like to play again?");
         }
         else {
           //empty playerInput so they can try again
-          console.log("Incorrect!!!");
           alert("Incorrect! Try again!");
           playerInput.length = 0;
           document.getElementById('playerInput').innerHTML = playerInput;
@@ -111,6 +128,12 @@
   </head>
 
   <body ontouchstart="">
+
+    <audio id="audio1" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" ></audio>
+    <audio id="audio2" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" ></audio>
+    <audio id="audio3" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" ></audio>
+    <audio id="audio4" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" ></audio>
+
     <div class="container-fluid text-center"> <!-- Beginning of Container -->
       <div class="row">
         <div class="col-cs-12">
