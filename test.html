@@ -7,10 +7,10 @@
 </head>
 <body>
 	<div class="gameboard">
-		<div data-key="37" id="button1" class="button"></div>
-		<div data-key="38" id="button2" class="button"></div>
-		<div data-key="39" id="button3" class="button"></div>
-		<div data-key="40" id="button4" class="button"></div>
+		<div data-key="37" id="button1" class="button">Button 1</div>
+		<div data-key="38" id="button2" class="button">Button 2</div>
+		<div data-key="39" id="button3" class="button">Button 3</div>
+		<div data-key="40" id="button4" class="button">Button 4</div>
 	</div>
 
 	<audio data-key="37" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" ></audio>
@@ -27,7 +27,7 @@
     	function removeTransition(e) {
 		    if (e.propertyName !== 'transform') return;
 		    e.target.classList.remove('playing');
-  		}   
+  		}
 
   		function playSound(e) {
 	    	const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
