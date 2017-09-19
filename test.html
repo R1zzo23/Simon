@@ -2,15 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Simon Test Space</title>
   <link rel="stylesheet" href="custom.css">
 </head>
 <body>
 	<div class="gameboard">
-		<div data-key="37" id="button1" class="button">Button 1</div>
-		<div data-key="38" id="button2" class="button">Button 2</div>
-		<div data-key="39" id="button3" class="button">Button 3</div>
-		<div data-key="40" id="button4" class="button">Button 4</div>
+		<div data-key="37" id="button1" class="button"></div>
+		<div data-key="38" id="button2" class="button"></div>
+		<div data-key="39" id="button3" class="button"></div>
+		<div data-key="40" id="button4" class="button"></div>
 	</div>
 
 	<audio data-key="37" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" ></audio>
@@ -19,15 +18,11 @@
     <audio data-key="40" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" ></audio>
 
     <script>
-    	const buttons = Array.from(document.querySelectorAll('.button'));
-    	buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
-    	window.addEventListener('keydown', playSound);
 
-    	//Function to deal with CSS transition, to be wired up later on
     	function removeTransition(e) {
 		    if (e.propertyName !== 'transform') return;
 		    e.target.classList.remove('playing');
-  		}
+  		}   
 
   		function playSound(e) {
 	    	const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
@@ -39,6 +34,9 @@
 	    	audio.play();
   		}
 
-    </script>
+    	const buttons = Array.from(document.querySelectorAll('.button'));
+    	buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
+    	window.addEventListener('keydown', playSound);
+	</script>
 </body>
 </html>

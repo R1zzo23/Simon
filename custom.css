@@ -1,9 +1,28 @@
-body {
-  background-color: black;
-  color: white;
-  font-family: sans-serif;;
+.button {
+	width: 100px;
+	height: 100px;
+	margin: 0 auto 10px auto;
+	transition: all .07s ease;
 }
 
-.button {
-  color: white;
+.playing {
+  transform: scale(1.1);
+  width: 105px;
+  height: 105px;
+}
+
+#button1 {
+	background-color: #33cc33;
+}
+
+#button2 {
+	background-color: #b30000;
+}
+
+#button3 {
+	background-color: #0099ff;
+}
+
+#button4 {
+	background-color: #e6e600;
 }
