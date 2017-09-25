@@ -44,6 +44,37 @@
 
   <script>
 
+    var correctPattern = [];
+    var playerInput = [];
+    var count = 0;
+    var turn = 0;
+    var strictMode = false;
+
+    //starts the game
+    function startGame() {
+      nextButton();
+    }
+
+    //randomly assign the next button to the pattern
+    function nextButton() {
+
+    }
+
+    //plays the pattern to the player with sound and visual effect
+    function playPattern() {
+
+    }
+
+    //plays sound, lights up piece and pushes that value to playerInput[]
+    function playerPress(num) {
+
+    }
+
+    //comparison between playerInput[] and correctPattern[] to see if right or wrong
+    function checkInput(playerInput, correctPattern) {
+
+    }
+
   	function removeTransition(e) {
 	    if (e.propertyName !== 'transform') return;
 	    e.target.classList.remove('playing');
