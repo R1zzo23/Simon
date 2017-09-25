@@ -2,41 +2,66 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Simon</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="custom.css">
 </head>
 <body>
-	<div class="gameboard">
-		<div data-key="37" id="button1" class="button"></div>
-		<div data-key="38" id="button2" class="button"></div>
-		<div data-key="39" id="button3" class="button"></div>
-		<div data-key="40" id="button4" class="button"></div>
-	</div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="gameboard">
+          <div class="top-row"> <!-- Top Row: red button only -->
+            <div data-key="38" id="button2" class="button"></div>
+          </div>
+          <div class="mid-row"> <!-- Middle Row: green & blue button with round counter -->
+            <div data-key="37" id="button1" class="button"></div>
+            <div id="gameNumber">
+              <h2 id="clickNumber">0</h2></div>
+            <div data-key="39" id="button3" class="button"></div>
+          </div>
+          <div class="bot-row"> <!-- Bottom Row: yellow button only -->
+            <div data-key="40" id="button4" class="button"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 	<audio data-key="37" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" ></audio>
-    <audio data-key="38" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" ></audio>
-    <audio data-key="39" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" ></audio>
-    <audio data-key="40" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" ></audio>
+  <audio data-key="38" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" ></audio>
+  <audio data-key="39" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" ></audio>
+  <audio data-key="40" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" ></audio>
 
-    <script>
+  <script>
 
-    	function removeTransition(e) {
-		    if (e.propertyName !== 'transform') return;
-		    e.target.classList.remove('playing');
-  		}   
+  	function removeTransition(e) {
+	    if (e.propertyName !== 'transform') return;
+	    e.target.classList.remove('playing');
+		}
 
-  		function playSound(e) {
-	    	const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-	    	const button = document.querySelector(`div[data-key="${e.keyCode}"]`);
-	   		if (!audio) return;
+		function playSound(e) {
+    	const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    	const button = document.querySelector(`div[data-key="${e.keyCode}"]`);
+   		if (!audio) return;
 
-	    	button.classList.add('playing');
-	    	audio.currentTime = 0;
-	    	audio.play();
-  		}
+    	button.classList.add('playing');
+    	audio.currentTime = 0;
+    	audio.play();
+		}
 
-    	const buttons = Array.from(document.querySelectorAll('.button'));
-    	buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
-    	window.addEventListener('keydown', playSound);
-	</script>
+  	const buttons = Array.from(document.querySelectorAll('.button'));
+  	buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
+  	window.addEventListener('keydown', playSound);
+  </script>
 </body>
 </html>

@@ -26,3 +26,25 @@
 #button4 {
 	background-color: #e6e600;
 }
+
+.gameboard {
+	max-width: 480px;
+	margin: 20px auto;
+}
+
+.top-row {
+	display: flex;
+	justify-content: center;
+}
+
+.mid-row {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	margin: 5px auto;
+}
+
+.bot-row {
+	display: flex;
+	justify-content: center;
+}
