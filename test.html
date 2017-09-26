@@ -68,16 +68,17 @@
       document.getElementById('clickNumber').innerHTML = turn;
       var nextButton = Math.floor(Math.random() * 4) + 1;
       correctPattern.push(nextButton);
-      document.getElementById('correctPattern').innerHTML = correctPattern;
+      //document.getElementById('correctPattern').innerHTML = correctPattern;
       playPattern();
     }
     //plays the pattern to the player with sound and visual effect
     function playPattern() {
-
+      //Rizzo's Question: How can we use the playSound(e) function
+      //to have the game play the current pattern the user needs to repeat?
     }
     //plays sound, lights up piece and pushes that value to playerInput[]
     function playerPress(num) {
-      
+
     }
     //comparison between playerInput[] and correctPattern[] to see if right or wrong
     function checkInput(playerInput, correctPattern) {
