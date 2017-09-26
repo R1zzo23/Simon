@@ -58,6 +58,11 @@
     var count = 0;
     var turn = 0;
     var strictMode = false;
+    var audio1 = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3");
+    var audio2 = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3");
+    var audio3 = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3");
+    var audio4 = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3");
+    var audioArray = [audio1, audio2, audio3, audio4];
     //starts the game
     function startGame() {
       nextButton();
@@ -66,15 +71,30 @@
     function nextButton() {
       turn++;
       document.getElementById('clickNumber').innerHTML = turn;
-      var nextButton = Math.floor(Math.random() * 4) + 1;
+      var nextButton = Math.floor(Math.random() * 4) + 1 + 35;
       correctPattern.push(nextButton);
       //document.getElementById('correctPattern').innerHTML = correctPattern;
       playPattern();
     }
     //plays the pattern to the player with sound and visual effect
     function playPattern() {
+      console.log(correctPattern);
       //Rizzo's Question: How can we use the playSound(e) function
       //to have the game play the current pattern the user needs to repeat?
+      for (var i = 0; i < correctPattern.length; i++) {
+        if (correctPattern[i] == 37) {
+          audioArray[1].play();
+        }
+        else if (correctPattern[i] == 38) {
+          audioArray[2].play();
+        }
+        else if (correctPattern[i] == 39) {
+          audioArray[3].play();
+        }
+        else if (correctPattern[i] == 40) {
+          audioArray[4].play();
+        }
+      }
     }
     //plays sound, lights up piece and pushes that value to playerInput[]
     function playerPress(num) {
