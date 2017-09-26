@@ -2,43 +2,123 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Simon Test Space</title>
+  <title>Simon</title>
+
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+  <!-- jQuery library -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
   <link rel="stylesheet" href="custom.css">
 </head>
 <body>
-	<div class="gameboard">
-		<div data-key="37" id="button1" class="button">Button 1</div>
-		<div data-key="38" id="button2" class="button">Button 2</div>
-		<div data-key="39" id="button3" class="button">Button 3</div>
-		<div data-key="40" id="button4" class="button">Button 4</div>
-	</div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="gameboard">
+          <div class="top-row"> <!-- Top Row: red button only -->
+            <div data-key="38" id="button2" class="button"></div>
+          </div>
+          <div class="mid-row"> <!-- Middle Row: green & blue button with round counter -->
+            <div data-key="37" id="button1" class="button"></div>
+            <div id="gameNumber">
+              <h2 id="clickNumber">0</h2></div>
+              <h2 id="turn"></h2>
+              <h2 id=count></h2>
+            <div data-key="39" id="button3" class="button"></div>
+          </div>
+          <div class="bot-row"> <!-- Bottom Row: yellow button only -->
+            <div data-key="40" id="button4" class="button"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-	<audio data-key="37" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" ></audio>
-    <audio data-key="38" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" ></audio>
-    <audio data-key="39" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" ></audio>
-    <audio data-key="40" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" ></audio>
+  <audio data-key="37" id="button1"src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3" ></audio>
+  <audio data-key="38" id="button2"src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" ></audio>
+  <audio data-key="39" id="button3"src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" ></audio>
+  <audio data-key="40" id="button4"src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" ></audio>
 
-    <script>
-    	const buttons = Array.from(document.querySelectorAll('.button'));
-    	buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
-    	window.addEventListener('keydown', playSound);
+  <script>
+    var correctPattern = [];
+    var playerInput = [];
+    var count = 0;
+    var turn = 0;
+    var strictMode = false;
+    //starts the game
+    function startGame() {
+      nextButton();
+    }
+    //randomly assign the next button to the pattern
+    function nextButton() {
+    	turn++;
+      document.getElementById('turn').innerHTML = "Turn #" + turn;
+      var nextButton = Math.floor(Math.random() * 4) + 1;
+      correctPattern.push(nextButton);
+      document.getElementById('correctPattern').innerHTML = correctPattern;
+      playPattern();
+    }
+    //plays the pattern to the player with sound and visual effect
+    function playPattern() {
 
-    	//Function to deal with CSS transition, to be wired up later on
-    	function removeTransition(e) {
-		    if (e.propertyName !== 'transform') return;
-		    e.target.classList.remove('playing');
-  		}
+    }
+    //plays sound, lights up piece and pushes that value to playerInput[]
+    function playerPress(num) {
+    }
+    //comparison between playerInput[] and correctPattern[] to see if right or wrong
+    function checkInput(playerInput, correctPattern) {
+    	var patternIsCorrect = true;
 
-  		function playSound(e) {
-	    	const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-	    	const button = document.querySelector(`div[data-key="${e.keyCode}"]`);
-	   		if (!audio) return;
+    	for (var i = 0; i < playerInput.length; i++) {
+    		if (playerInput[i] !== correctPattern[i]) {
+          		patternIsCorrect = false;
+          		break;
+        		} 
 
-	    	button.classList.add('playing');
-	    	audio.currentTime = 0;
-	    	audio.play();
-  		}
+        	if (patternIsCorrect == true) {
+        		count++;
+        		document.getElementById('count').innerHTML = "Count: " + count;
+        		playerInput.length = 0;
+        		document.getElementById('playerInput').innerHTML = playerInput;
+        		nextButton();
+      			}
 
-    </script>
+      		else if (patternIsCorrect == false) {
+       			if (strictMode == true) {
+          			alert("Game over! Would you like to play again?");
+        		}
+
+        		else {
+          			alert("Incorrect! Try again!");
+          			playerInput.length = 0;
+          			document.getElementById('playerInput').innerHTML = playerInput;
+         	
+        		}
+        	}
+		}
+    }
+  	
+  	function removeTransition(e) {
+		if (e.propertyName !== 'transform') return;
+	    e.target.classList.remove('playing');
+	}
+		
+	function playSound(e) {
+    	const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    	const button = document.querySelector(`div[data-key="${e.keyCode}"]`);
+   		if (!audio) return;
+    	button.classList.add('playing');
+    	audio.currentTime = 0;
+    	audio.play();
+	}
+  	const buttons = Array.from(document.querySelectorAll('.button'));
+  	buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
+  	window.addEventListener('keydown', playSound);
+  </script>
 </body>
 </html>
