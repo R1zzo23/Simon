@@ -71,28 +71,35 @@
     function nextButton() {
       turn++;
       document.getElementById('clickNumber').innerHTML = turn;
-      var nextButton = Math.floor(Math.random() * 4) + 1 + 35;
-      correctPattern.push(nextButton);
-      //document.getElementById('correctPattern').innerHTML = correctPattern;
+      var nextButtonInSeq = Math.floor(Math.random() * 4) + 37;
+      correctPattern.push(nextButtonInSeq);
       playPattern();
     }
     //plays the pattern to the player with sound and visual effect
     function playPattern() {
-      console.log(correctPattern);
       //Rizzo's Question: How can we use the playSound(e) function
       //to have the game play the current pattern the user needs to repeat?
       for (var i = 0; i < correctPattern.length; i++) {
+        console.log(correctPattern[i]);
         if (correctPattern[i] == 37) {
-          audioArray[1].play();
+          setTimeout(function() {
+            audioArray[0].play();
+          }, 1000);
         }
         else if (correctPattern[i] == 38) {
-          audioArray[2].play();
+          setTimeout(function() {
+            audioArray[1].play();
+          }, 1000);
         }
         else if (correctPattern[i] == 39) {
-          audioArray[3].play();
+          setTimeout(function() {
+            audioArray[2].play();
+          }, 1000);
         }
         else if (correctPattern[i] == 40) {
-          audioArray[4].play();
+          setTimeout(function() {
+            audioArray[3].play();
+          }, 1000);
         }
       }
     }
