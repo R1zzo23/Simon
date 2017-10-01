@@ -82,24 +82,16 @@
       for (var i = 0; i < correctPattern.length; i++) {
         console.log(correctPattern[i]);
         if (correctPattern[i] == 37) {
-          setTimeout(function() {
-            audioArray[0].play();
-          }, 1000);
+          (function(j) {setTimeout(function() {audioArray[0].play();}, 500);}(i));
         }
         else if (correctPattern[i] == 38) {
-          setTimeout(function() {
-            audioArray[1].play();
-          }, 1000);
+          (function(j) {setTimeout(function() {audioArray[1].play();}, 500);}(i));
         }
         else if (correctPattern[i] == 39) {
-          setTimeout(function() {
-            audioArray[2].play();
-          }, 1000);
+          (function(j) {setTimeout(function() { audioArray[2].play();}, 500);}(i));
         }
-        else if (correctPattern[i] == 40) {
-          setTimeout(function() {
-            audioArray[3].play();
-          }, 1000);
+        else if (correctPattern[i] == 40) { 
+          (function(j) {setTimeout(function() {audioArray[3].play();}, 500);}(i));
         }
       }
     }
