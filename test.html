@@ -58,11 +58,10 @@
     var count = 0;
     var turn = 0;
     var strictMode = false;
-    var audio1 = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3");
-    var audio2 = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3");
-    var audio3 = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3");
-    var audio4 = new Audio("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3");
-    var audioArray = [audio1, audio2, audio3, audio4];
+    var audioArray = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
+                      "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" ,
+                      "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
+                      "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"];
     //starts the game
     function startGame() {
       nextButton();
@@ -75,23 +74,19 @@
       correctPattern.push(nextButtonInSeq);
       playPattern();
     }
-    //plays the pattern to the player with sound and visual effect
     function playPattern() {
-      //Rizzo's Question: How can we use the playSound(e) function
-      //to have the game play the current pattern the user needs to repeat?
       for (var i = 0; i < correctPattern.length; i++) {
-        console.log(correctPattern[i]);
         if (correctPattern[i] == 37) {
-          (function(j) {setTimeout(function() {audioArray[0].play();}, 500);}(i));
+          a
         }
         else if (correctPattern[i] == 38) {
-          (function(j) {setTimeout(function() {audioArray[1].play();}, 500);}(i));
+          audioArray[1].play();
         }
         else if (correctPattern[i] == 39) {
-          (function(j) {setTimeout(function() { audioArray[2].play();}, 500);}(i));
+           audioArray[2].play();
         }
         else if (correctPattern[i] == 40) { 
-          (function(j) {setTimeout(function() {audioArray[3].play();}, 500);}(i));
+            audioArray[3].play();
         }
       }
     }
@@ -141,6 +136,12 @@
       button.classList.add('playing');
       audio.currentTime = 0;
       audio.play();
+    }
+
+    function delayedSound() {
+      setTimeout(function() {
+        playSound(?);
+      }, 400 * turn);
     }
     const buttons = Array.from(document.querySelectorAll('.button'));
     buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
