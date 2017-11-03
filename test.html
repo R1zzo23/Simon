@@ -15,42 +15,6 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
   <link rel="stylesheet" href="custom.css">
-</head>
-
-<body>
-  <div class="container-fluid text-center">
-    <div class="row">
-      <button onclick="startGame()">Start</button>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <div class="gameboard">
-          <div class="top-row">
-            <!-- Top Row: red button only -->
-            <div data-key="38" id="button2" class="button"></div>
-          </div>
-          <div class="mid-row">
-            <!-- Middle Row: green & blue button with round counter -->
-            <div data-key="37" id="button1" class="button"></div>
-            <div id="gameNumber">
-              <h2 id="clickNumber">0</h2></div>
-            <h2 id="turn"></h2>
-            <h2 id=count></h2>
-            <div data-key="39" id="button3" class="button"></div>
-          </div>
-          <div class="bot-row">
-            <!-- Bottom Row: yellow button only -->
-            <div data-key="40" id="button4" class="button"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <audio data-key="37" id="button1" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"></audio>
-  <audio data-key="38" id="button2" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"></audio>
-  <audio data-key="39" id="button3" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"></audio>
-  <audio data-key="40" id="button4" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"></audio>
 
   <script>
     var correctPattern = [];
@@ -58,12 +22,19 @@
     var count = 0;
     var turn = 0;
     var strictMode = false;
-    var audioArray = ["https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
-                      "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3" ,
-                      "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
-                      "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"];
+    var audio1 = document.getElementById("button1");
+    var audio2 = document.getElementById("button2");
+    var audio3 = document.getElementById("button3");
+    var audio4 = document.getElementById("button4");
+
+    $(document).ready(function() {
+
+    });
+
     //starts the game
     function startGame() {
+      console.log("startGame() has run!");
+      alert("Start the game!");
       nextButton();
     }
     //randomly assign the next button to the pattern
@@ -72,21 +43,23 @@
       document.getElementById('clickNumber').innerHTML = turn;
       var nextButtonInSeq = Math.floor(Math.random() * 4) + 37;
       correctPattern.push(nextButtonInSeq);
+      console.log(correctPattern);
       playPattern();
     }
     function playPattern() {
+      console.log("playPattern() has run!");
       for (var i = 0; i < correctPattern.length; i++) {
         if (correctPattern[i] == 37) {
-          a
+          audio1.play();
         }
         else if (correctPattern[i] == 38) {
-          audioArray[1].play();
+          audio2.play();
         }
         else if (correctPattern[i] == 39) {
-           audioArray[2].play();
+           audio3.play();
         }
-        else if (correctPattern[i] == 40) { 
-            audioArray[3].play();
+        else if (correctPattern[i] == 40) {
+            audio4.play();
         }
       }
     }
@@ -138,15 +111,54 @@
       audio.play();
     }
 
-    function delayedSound() {
+    /*function delayedSound() {
       setTimeout(function() {
         playSound(?);
       }, 400 * turn);
-    }
+    }*/
+
     const buttons = Array.from(document.querySelectorAll('.button'));
     buttons.forEach(button => button.addEventListener('transitionend', removeTransition));
     window.addEventListener('keydown', playSound);
   </script>
+
+</head>
+
+<body>
+  <div class="container-fluid text-center">
+    <div class="row">
+      <button id="startButton" onclick="startGame()">Start</button>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="gameboard">
+          <div class="top-row">
+            <!-- Top Row: red button only -->
+            <div data-key="38" id="button2" class="button"></div>
+          </div>
+          <div class="mid-row">
+            <!-- Middle Row: green & blue button with round counter -->
+            <div data-key="37" id="button1" class="button"></div>
+            <div id="gameNumber">
+              <h2 id="clickNumber">0</h2></div>
+            <h2 id="turn"></h2>
+            <h2 id=count></h2>
+            <div data-key="39" id="button3" class="button"></div>
+          </div>
+          <div class="bot-row">
+            <!-- Bottom Row: yellow button only -->
+            <div data-key="40" id="button4" class="button"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio data-key="37" id="button1" src="https://s3.amazonaws.com/freecodecamp/simonSound1.mp3"></audio>
+  <audio data-key="38" id="button2" src="https://s3.amazonaws.com/freecodecamp/simonSound2.mp3"></audio>
+  <audio data-key="39" id="button3" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3"></audio>
+  <audio data-key="40" id="button4" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3"></audio>
+
 </body>
 
 </html>
