@@ -105,6 +105,7 @@
       for (var i = 0; i < playerInput.length; i++) {
         if (playerInput[i] !== correctPattern[i]) {
           patternIsCorrect = false;
+          console.log("playerInput[0] = " + playerInput[0] + " & correctPattern[0] = " + correctPattern[0]);
           alert("INCORRECT");
           break;
         }

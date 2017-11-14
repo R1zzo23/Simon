@@ -21,7 +21,6 @@
     var correctPattern = [];
     var playerInput = [];
     var count = 0;
-    var turn = 0;
     var strictMode = false;
 
 
@@ -33,50 +32,68 @@
     });
 
     function toggleStrictMode() {
+      var yesToggle;
+
       if (strictMode) {
-        strictMode = false;
-        document.getElementById('btnStrictMode').innerHTML = "Strict Mode: OFF";
+        yesToggle = confirm("Are you sure you want to turn off strict mode? The game will reset.");
+        if (yesToggle) {
+          strictMode = false;
+          document.getElementById('btnStrictMode').innerHTML = "Strict Mode: OFF";
+        }
       }
       else if (!strictMode) {
-        strictMode = true;
-        document.getElementById('btnStrictMode').innerHTML = "Strict Mode: ON";
+        yesToggle = confirm("Are you sure you want to turn on strict mode? The game will reset.");
+        if (yesToggle) {
+          strictMode = true;
+          document.getElementById('btnStrictMode').innerHTML = "Strict Mode: ON";
+        }
       }
+      startGame();
     }
 
     //starts the game
     function startGame() {
+      correctPattern = [];
+      playerInput = []
+      count = 0;
+      document.getElementById('playerInput').innerHTML = playerInput;
+      document.getElementById('correctPattern').innerHTML = correctPattern;
+      document.getElementById('count').innerHTML = count;
       nextButton();
     }
 
     //randomly assign the next button to the pattern
     function nextButton() {
-      turn++;
-      document.getElementById('turn').innerHTML = "Turn #" + turn;
       var nextButton = Math.floor(Math.random() * 4) + 1;
       correctPattern.push(nextButton);
+      console.log(correctPattern);
       document.getElementById('correctPattern').innerHTML = correctPattern;
       playPattern();
+    }
+
+    function playSound(num) {
+      if (num == 1) {
+        //audio1.play();
+        setTimeout(function(){ audio1.play(); }, 1000);
+      }
+      else if (num == 2) {
+        //audio2.play();
+        setTimeout(function(){ audio2.play(); }, 1000);
+      }
+      else if (num == 3) {
+        //audio3.play();
+        setTimeout(function(){ audio3.play(); }, 1000);
+      }
+      else if (num == 4) {
+        //audio4.play();
+        setTimeout(function(){ audio4.play(); }, 1000);
+      }
     }
 
     //plays the pattern to the player with sound and light
     function playPattern() {
       for (var i = 0; i < correctPattern.length; i++) {
-        if (correctPattern[i] == 1) {
-          //audio1.play();
-          setTimeout(function(){ audio1.play(); }, 1000);
-        }
-        else if (correctPattern[i] == 2) {
-          //audio2.play();
-          setTimeout(function(){ audio2.play(); }, 1000);
-        }
-        else if (correctPattern[i] == 3) {
-          //audio3.play();
-          setTimeout(function(){ audio3.play(); }, 1000);
-        }
-        else if (correctPattern[i] == 4) {
-          //audio4.play();
-          setTimeout(function(){ audio4.play(); }, 1000);
-        }
+        playSound(correctPattern[i]);
         //setTimeout(function(){ alert("Hello"); }, 1000);
       }
     }
@@ -84,8 +101,8 @@
     //plays sound, lights up piece and pushes that value to playerInput[]
     function playerPress(num) {
       //code to light up piece that was pressed
-      //code to play sound for piece that was pressed
       playerInput.push(num);
+      playSound(num);
       document.getElementById('playerInput').innerHTML = playerInput;
       if (playerInput.length == correctPattern.length){
         checkInput(playerInput, correctPattern);
@@ -104,22 +121,31 @@
       }
       if (patternIsCorrect == true) {
         count++;
-        document.getElementById('count').innerHTML = "Count: " + count;
-        playerInput.length = 0;
-        document.getElementById('playerInput').innerHTML = playerInput;
-        nextButton();
+
+        if (count == 20) {
+          alert("Congratulations! You win!");
+          startGame();
+        }
+        else {
+          document.getElementById('count').innerHTML = count;
+          playerInput.length = 0;
+          document.getElementById('playerInput').innerHTML = playerInput;
+          nextButton();
+        }
       }
       else if (patternIsCorrect == false) {
         if (strictMode == true) {
           //game ends
-          alert("Game over! Would you like to play again?");
+          alert("Game over! Better luck next time!");
+
+          startGame();
         }
         else {
           //empty playerInput so they can try again
           alert("Incorrect! Try again!");
           playerInput.length = 0;
           document.getElementById('playerInput').innerHTML = playerInput;
-          //playPattern();
+          playPattern();
         }
       }
     }
@@ -134,19 +160,36 @@
     <audio id="audio3" src="https://s3.amazonaws.com/freecodecamp/simonSound3.mp3" ></audio>
     <audio id="audio4" src="https://s3.amazonaws.com/freecodecamp/simonSound4.mp3" ></audio>
 
-    <div class="container-fluid text-center"> <!-- Beginning of Container -->
+    <div class="container-fluid text-center"> <!-- Start of Container -->
       <div class="row">
-        <div class="col-cs-12">
-          <button onclick="startGame()">Start</button>
-          <button id="btnStrictMode" onclick="toggleStrictMode()">Strict Mode: OFF</button>
-          <button onclick="playerPress(1)">1 - Blue</button>
-          <button onclick="playerPress(2)">2 - Red</button>
-          <button onclick="playerPress(3)">3 - Green</button>
-          <button onclick="playerPress(4)">4 - Yellow</button>
-          <p id="correctPattern"></p>
-          <p id="playerInput"></p>
-          <p id="turn">Turn #0</p>
-          <p id="count">Count: 0</p>
+        <button id="startButton" onclick="startGame()">Start</button>
+        <button id="btnStrictMode" onclick="toggleStrictMode()">Strict Mode: OFF</button>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="gameboard">
+            <div class="top-row">
+              <!-- Top Row: red button only -->
+              <button class="button" id="button2" onclick="playerPress(2)">2</button>
+            </div>
+            <div class="mid-row">
+              <!-- Middle Row: green & blue button with round counter -->
+              <button class="button" id="button1" onclick="playerPress(1)">1</button>
+              <div id="gameNumber">
+                <h2 id="count">0</h2>
+              </div>
+              <button class="button" id="button3" onclick="playerPress(3)">3</button>
+            </div>
+            <div class="bot-row">
+              <!-- Bottom Row: yellow button only -->
+              <button class="button" id="button4" onclick="playerPress(4)">4</button>
+            </div>
+            <div class="developer-info">
+              <p id="correctPattern"></p>
+              <p id="playerInput"></p>
+              <p id="count">0</p>
+            </div>
+          </div>
         </div>
       </div>
     </div> <!-- End of Container -->
