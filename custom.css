@@ -11,6 +11,10 @@ body {
 	font-size: 4em;
 }
 
+.developer-info {
+	color: white;
+}
+
 #count {
 	color: white;
 	font-size: 4em;
