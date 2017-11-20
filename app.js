@@ -17,14 +17,14 @@ $(document).ready(function() {
   var audio2 = document.getElementById('audio2');
   var audio3 = document.getElementById('audio3');
   var audio4 = document.getElementById('audio4');
-  playSoundArray();
+  playSoundArray(soundArray);
 });
 
-function playSoundArray() {
+function playSoundArray(arr) {
   console.log("Running playSoundArray() !");
   var audio = new Audio();
   var i = 0;
-  var playlist = correctPatternSounds;
+  var playlist = arr;
   audio.addEventListener('ended', function() {
     i = i++ < playlist.length ? i : 0;
     console.log(i);
@@ -33,7 +33,7 @@ function playSoundArray() {
   }, true);
   audio.volume = 0.3;
   audio.loop = false;
-  audio.src = playlist[0];
+  audio.src = arr[0];
   audio.play();
 }
 
@@ -68,59 +68,38 @@ function startGame() {
 //randomly assign the next button to the pattern
 function nextButton() {
   var nextButton = Math.floor(Math.random() * 4) + 1;
-  console.log("nextButton = " + nextButton);
-  if (nextButton == 1) {
-    correctPatternSounds.push(audio1);
-  }
-  else if (nextButton == 2) {
-    correctPatternSounds.push(audio2);
-  }
-  else if (nextButton == 3) {
-    correctPatternSounds.push(audio3);
-  }
-  else if (nextButton == 4) {
-    correctPatternSounds.push(audio4);
-  }
+  //push correct audio clip to the array
+  pushSoundToArray(nextButton, correctPatternSounds);
   correctPattern.push(nextButton);
-  console.log(correctPattern);
-  console.log(correctPatternSounds);
+  //show correctPattern sequence for testing
   document.getElementById('correctPattern').innerHTML = correctPattern;
   //playPattern();
-  playSoundArray();
+  playSoundArray(correctPatternSounds);
 }
 
 function playSound(num) {
-  if (num == 1) {
-    audio2.play();
-    //setTimeout(function(){ audio1.play(); }, 1000);
-  } else if (num == 2) {
-    audio2.play();
-    //setTimeout(function(){ audio2.play(); }, 1000);
-  } else if (num == 3) {
-    audio3.play();
-    //setTimeout(function(){ audio3.play(); }, 1000);
-  } else if (num == 4) {
-    audio4.play();
-    //setTimeout(function(){ audio4.play(); }, 1000);
+  var singleArray = [];
+  pushSoundToArray(num, singleArray);
+  playSoundArray(singleArray);
+}
+
+//function to add correct audio clip to specific array
+//created this because code below was used multiple times in file
+function pushSoundToArray(number, targetArray){
+  if (number == 1) {
+    targetArray.push("https://s3.amazonaws.com/freecodecamp/simonSound1.mp3");
+  }
+  else if (number == 2) {
+    targetArray.push("https://s3.amazonaws.com/freecodecamp/simonSound2.mp3");
+  }
+  else if (number == 3) {
+    targetArray.push("https://s3.amazonaws.com/freecodecamp/simonSound3.mp3");
+  }
+  else if (number == 4) {
+    targetArray.push("https://s3.amazonaws.com/freecodecamp/simonSound4.mp3");
   }
 }
-//plays the pattern to the player with sound and light
-function playPattern() {
-  /*var audio = new Audio();
-  var i = 0;
-  var playlist = correctPattern;
-  audio.addEventListenter('ended', function () {
-    i = ++i < playlist.length ? i : 0;
-    console.log(i)
-    audio.src = playlist[i];
-    audio.play();
-  }, true);
-  audio.src = playlist[0];
-  audio.play();*/
-  for (var i = 0; i < correctPattern.length; i++) {
-    playSound(correctPattern[i]);
-  }
-}
+
 //plays sound, lights up piece and pushes that value to playerInput[]
 function playerPress(num) {
   //code to light up piece that was pressed
@@ -131,6 +110,7 @@ function playerPress(num) {
     checkInput(playerInput, correctPattern);
   }
 }
+
 //comparison between playerInput[] and correctPattern[] to see if right or wrong
 function checkInput(playerInput, correctPattern) {
   var patternIsCorrect = true;
