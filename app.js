@@ -5,29 +5,18 @@ var correctPatternSounds = [];
 var playerInput          = [];
 var count                = 0;
 var strictMode           = false;
-var soundArray           = new Array(
-  "https://s3.amazonaws.com/freecodecamp/simonSound1.mp3",
-  "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3",
-  "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3",
-  "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3");
+var patternPlayback      = false;
 
 $(document).ready(function() {
-  //set 4 audio files to variables
-  var audio1 = document.getElementById('audio1');
-  var audio2 = document.getElementById('audio2');
-  var audio3 = document.getElementById('audio3');
-  var audio4 = document.getElementById('audio4');
-  playSoundArray(soundArray);
+
 });
 
 function playSoundArray(arr) {
-  console.log("Running playSoundArray() !");
   var audio = new Audio();
   var i = 0;
   var playlist = arr;
   audio.addEventListener('ended', function() {
     i = i++ < playlist.length ? i : 0;
-    console.log(i);
     audio.src = playlist[i];
     audio.play();
   }, true);
@@ -35,6 +24,7 @@ function playSoundArray(arr) {
   audio.loop = false;
   audio.src = arr[0];
   audio.play();
+  patternPlayback = false;
 }
 
 function toggleStrictMode() {
@@ -60,6 +50,10 @@ function startGame() {
   correctPatternSounds = [];
   playerInput = []
   count = 0;
+  //#playerInput and #correctPattern are for developers only
+  //both can be deleted once animations are added in properly
+  //for now they are used to see the correct patterns and
+  //player's input for testing purposes only
   document.getElementById('playerInput').innerHTML = playerInput;
   document.getElementById('correctPattern').innerHTML = correctPattern;
   document.getElementById('count').innerHTML = count;
@@ -72,10 +66,35 @@ function nextButton() {
   pushSoundToArray(nextButton, correctPatternSounds);
   correctPattern.push(nextButton);
   //show correctPattern sequence for testing
+  //can delete this once we have animation for buttons
   document.getElementById('correctPattern').innerHTML = correctPattern
+  patternPlayback = true;
+  toggleButtonDisable();
   playSoundArray(correctPatternSounds);
+  //timer to keep buttons disabled while playback is going on
+  setTimeout(function() {
+    toggleButtonDisable();
+  }, (1300 * correctPattern.length));
 }
 
+//disables buttons to allow the pattern to play without
+//user pushing buttons and having sounds overlap
+function toggleButtonDisable() {
+  if (patternPlayback) {
+    document.getElementById('button1').disabled = true;
+    document.getElementById('button2').disabled = true;
+    document.getElementById('button3').disabled = true;
+    document.getElementById('button4').disabled = true;
+  }
+  else if (!patternPlayback) {
+    document.getElementById('button1').disabled = false;
+    document.getElementById('button2').disabled = false;
+    document.getElementById('button3').disabled = false;
+    document.getElementById('button4').disabled = false;
+  }
+}
+
+//plays a sound for each player pick
 function playSound(num) {
   var singleArray = [];
   pushSoundToArray(num, singleArray);
@@ -125,10 +144,14 @@ function checkInput(playerInput, correctPattern) {
       alert("Congratulations! You win!");
       startGame();
     } else {
-      document.getElementById('count').innerHTML = count;
-      playerInput.length = 0;
-      document.getElementById('playerInput').innerHTML = playerInput;
-      nextButton();
+      //allows player inputs to finish playing before playing they
+      //pattern for the next turn
+      setTimeout(function() {
+        document.getElementById('count').innerHTML = count;
+        playerInput.length = 0;
+        document.getElementById('playerInput').innerHTML = playerInput;
+        nextButton();
+      }, 1500);
     }
   } else if (patternIsCorrect == false) {
     if (strictMode == true) {
