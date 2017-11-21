@@ -72,8 +72,7 @@ function nextButton() {
   pushSoundToArray(nextButton, correctPatternSounds);
   correctPattern.push(nextButton);
   //show correctPattern sequence for testing
-  document.getElementById('correctPattern').innerHTML = correctPattern;
-  //playPattern();
+  document.getElementById('correctPattern').innerHTML = correctPattern
   playSoundArray(correctPatternSounds);
 }
 
@@ -141,7 +140,7 @@ function checkInput(playerInput, correctPattern) {
       alert("Incorrect! Try again!");
       playerInput.length = 0;
       document.getElementById('playerInput').innerHTML = playerInput;
-      playPattern();
+      playSoundArray(correctPatternSounds);
     }
   }
 }
