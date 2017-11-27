@@ -8,13 +8,16 @@ var strictMode           = false;
 var patternPlayback      = false;
 
 $(document).ready(function() {
-
+  //document.getElementById("button1").style.background='#000000';
 });
 
 function playSoundArray(arr) {
   var audio = new Audio();
   var i = 0;
   var playlist = arr;
+  audio.addEventListener("play", function () {
+   buttonVisualCue(playlist[i]);
+}, false);
   audio.addEventListener('ended', function() {
     i = i++ < playlist.length ? i : 0;
     audio.src = playlist[i];
@@ -25,6 +28,33 @@ function playSoundArray(arr) {
   audio.src = arr[0];
   audio.play();
   patternPlayback = false;
+}
+
+function buttonVisualCue(num) {
+  if (num == "https://s3.amazonaws.com/freecodecamp/simonSound1.mp3") {
+    document.getElementById("button1").style.background='#000000';
+    setTimeout(function() {
+      document.getElementById("button1").style.background='#33cc33';
+    }, 300);
+  }
+  else if (num == "https://s3.amazonaws.com/freecodecamp/simonSound2.mp3") {
+    document.getElementById("button2").style.background='#000000';
+    setTimeout(function() {
+      document.getElementById("button2").style.background='#b30000';
+    }, 300);
+  }
+  else if (num == "https://s3.amazonaws.com/freecodecamp/simonSound3.mp3") {
+    document.getElementById("button3").style.background='#000000';
+    setTimeout(function() {
+      document.getElementById("button3").style.background='#0099ff';
+    }, 300);
+  }
+  else if (num == "https://s3.amazonaws.com/freecodecamp/simonSound4.mp3") {
+    document.getElementById("button4").style.background='#000000';
+    setTimeout(function() {
+      document.getElementById("button4").style.background='#e6e600';
+    }, 300);
+  }
 }
 
 function toggleStrictMode() {
@@ -54,8 +84,6 @@ function startGame() {
   //both can be deleted once animations are added in properly
   //for now they are used to see the correct patterns and
   //player's input for testing purposes only
-  document.getElementById('playerInput').innerHTML = playerInput;
-  document.getElementById('correctPattern').innerHTML = correctPattern;
   document.getElementById('count').innerHTML = count;
   nextButton();
 }
@@ -67,7 +95,6 @@ function nextButton() {
   correctPattern.push(nextButton);
   //show correctPattern sequence for testing
   //can delete this once we have animation for buttons
-  document.getElementById('correctPattern').innerHTML = correctPattern
   patternPlayback = true;
   toggleButtonDisable();
   playSoundArray(correctPatternSounds);
@@ -123,7 +150,6 @@ function playerPress(num) {
   //code to light up piece that was pressed
   playerInput.push(num);
   playSound(num);
-  document.getElementById('playerInput').innerHTML = playerInput;
   if (playerInput.length == correctPattern.length) {
     checkInput(playerInput, correctPattern);
   }
@@ -149,7 +175,6 @@ function checkInput(playerInput, correctPattern) {
       setTimeout(function() {
         document.getElementById('count').innerHTML = count;
         playerInput.length = 0;
-        document.getElementById('playerInput').innerHTML = playerInput;
         nextButton();
       }, 1500);
     }
@@ -162,7 +187,6 @@ function checkInput(playerInput, correctPattern) {
       //empty playerInput so they can try again
       alert("Incorrect! Try again!");
       playerInput.length = 0;
-      document.getElementById('playerInput').innerHTML = playerInput;
       playSoundArray(correctPatternSounds);
     }
   }
